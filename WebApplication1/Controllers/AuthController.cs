@@ -17,7 +17,7 @@ namespace WebApplication1.Controllers
         public IActionResult Login(UserForLoginDto userForloginDto)
         {
            var userToLogin=_authService.Login(userForloginDto);
-            if (userToLogin.Success)
+            if (!userToLogin.Success)
             {
                 return BadRequest(userToLogin.Message);
             }

@@ -70,7 +70,12 @@ namespace WebApplication1
 
             app.UseRouting();
 
+            //bir anahtar gibi düþünülebilir.
+            app.UseAuthentication();
+
+            //UseAuthentication ile girilen yerde ne yapýlabilir demektir.
             app.UseAuthorization();
+        
 
             app.UseEndpoints(endpoints =>
             {

@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Core.Utilities.Interceptors
 {
+    //bu clasda bir metodu nasıl yorumlayacağını anlattığımız yer olacaktır.
     public abstract class MethodInterception:MethodInterceptionBaseAttribute
     {
         protected virtual void OnBefore(IInvocation invocation) { }
@@ -18,6 +19,7 @@ namespace Core.Utilities.Interceptors
             OnBefore(invocation);
             try
             {
+                //operasyonu çalıştır demek
                 invocation.Proceed();
             }
             catch (Exception ex)

@@ -37,7 +37,7 @@ namespace Core.Utilities.Security.jwt
                 Expiration=_accessTokenExpiration
             };
 
-        }
+         }
 
         public JwtSecurityToken CreateJwtSecurityToken(TokenOptions tokenOptions,User user,SigningCredentials signingCredentials,List<OperationClaim> operationClaims)
         {
@@ -45,7 +45,7 @@ namespace Core.Utilities.Security.jwt
                 issuer: tokenOptions.Issuer,
                 audience: tokenOptions.Audience,
                 expires: _accessTokenExpiration,
-                notBefore: DateTime.Now,
+                notBefore: DateTime.Now, //token ın expiresin bilgisi şuandan önce ise geçerli değil olması için  
                 claims: SetClaims(user,operationClaims),
                 signingCredentials: signingCredentials
                 );

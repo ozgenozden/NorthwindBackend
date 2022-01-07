@@ -20,6 +20,7 @@ namespace Business.Concrete
             _userService = userService;
             _tokenHelper = tokenHelper; 
         }
+        //Kullanıcı kayıt olduktan veya login olduktan sonra bu kullanıcıya token vermemizi sağlamak için
         public IDataResult<AccessToken> CreateAccessToken(User user)
         {
             var claims = _userService.GetClaims(user);
@@ -35,7 +36,7 @@ namespace Business.Concrete
             {
                 return new ErrorDataResult<User>(Messages.UserNotFound);
             }
-            if (HashingHelper.VerifyPasswordHash(userForLoginDto.Password, userToCheck.PasswordHash, userToCheck.PasswordSalt))
+            if (!HashingHelper.VerifyPasswordHash(userForLoginDto.Password, userToCheck.PasswordHash, userToCheck.PasswordSalt))
             {
                 return new ErrorDataResult<User>(Messages.PasswordError);
             }
@@ -50,7 +51,7 @@ namespace Business.Concrete
             {
                 Email=userForRegisterDto.Email,
                 PasswordHash=passwordHash,
-                PasswordSalt=passwordSalt,
+                PasswordSalt=passwordSalt,  
                 FirstName=userForRegisterDto.FirstName,
                 LastName=userForRegisterDto.LastName,
                 Status=true

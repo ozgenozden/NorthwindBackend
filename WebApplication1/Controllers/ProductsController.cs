@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -16,6 +17,7 @@ namespace WebAPI.Controllers
             productService = _productService;
         }
         [HttpGet("getall")]
+        [Authorize()]
         public IActionResult GetList()
         {
             var result=productService.GetList();
