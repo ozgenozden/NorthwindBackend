@@ -3,6 +3,7 @@ using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerts.Validation;
+using Core.Utilities.Interceptors;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
@@ -20,7 +21,7 @@ namespace Business.Concrete
         {
             productDal = _productDal;
         }
-        [ValidationAspect(typeof(ProductValidator))]
+        [ValidationAspect(typeof(ProductValidator))]         
         public IResult Add(Product product)
         {
             //ValidationTool.Validate(new ProductValidator(),product);

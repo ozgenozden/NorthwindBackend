@@ -31,7 +31,7 @@ namespace WebApplication1
             services.AddCors(options=>
             {
                 options.AddPolicy("AllowOrigin",
-                    builder => builder.WithOrigins("http://localhost:3000"));
+                    builder => builder.WithOrigins("http://localhost:44353"));
 
             });
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
@@ -47,8 +47,7 @@ namespace WebApplication1
                     ValidateIssuerSigningKey=true,
                     IssuerSigningKey=SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey), 
                 });
-          
-          
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,8 +63,12 @@ namespace WebApplication1
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseCors(builder=>builder.WithOrigins("http://localhost:3000").AllowAnyHeader());
+
+            app.UseCors(builder=>builder.WithOrigins("http://localhost:44353").AllowAnyHeader());
+
+
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -75,7 +78,6 @@ namespace WebApplication1
 
             //UseAuthentication ile girilen yerde ne yapýlabilir demektir.
             app.UseAuthorization();
-        
 
             app.UseEndpoints(endpoints =>
             {
