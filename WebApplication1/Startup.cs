@@ -12,6 +12,9 @@ using Microsoft.IdentityModel.Tokens;
 using Core.Utilities.Security.jwt;
 using Core.Utilities.Security.Encryption;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Core.Extensions;
+using Core.Utilities.IoC;
+using Core.DependencyResolves;
 
 namespace WebApplication1
 {
@@ -27,6 +30,7 @@ namespace WebApplication1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMemoryCache();
             services.AddControllersWithViews();
             services.AddCors(options=>
             {
@@ -45,8 +49,13 @@ namespace WebApplication1
                     ValidIssuer=tokenOptions.Issuer,
                     ValidAudience=tokenOptions.Audience,
                     ValidateIssuerSigningKey=true,
-                    IssuerSigningKey=SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey), 
+                    IssuerSigningKey=SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
+                
                 });
+            services.AddDependencyResolves(new ICoreModule[]
+            {
+               new CoreModule(),
+            });
 
         }
 

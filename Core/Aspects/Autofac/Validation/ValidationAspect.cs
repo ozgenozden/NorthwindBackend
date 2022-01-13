@@ -33,7 +33,7 @@ namespace Core.Aspects.Autofac.Validation
             //AbstractValidator<Product>, ProductValidator un base i olduğundan bunun generic argumanı olan Product
             //ı entityType a atamış olduk.
             var entityType =_validatorType.BaseType.GetGenericArguments()[0];
-
+            //entityType ornek olarak "Product" olabilir.
 
             //metotdun argumanlarını bul ve entityType ile aynı olanları döndür.
             var entities = invocation.Arguments.Where(t => t.GetType()==entityType);
@@ -41,7 +41,7 @@ namespace Core.Aspects.Autofac.Validation
             //
             foreach (var entity in entities)
             {
-                ValidationTool.Validate(validator, entity);
+                ValidationTool.Validate(validator,entity);
             }
         }
     }

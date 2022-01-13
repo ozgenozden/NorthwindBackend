@@ -1,6 +1,8 @@
 ﻿using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerts.Validation;
 using Core.Utilities.Interceptors;
@@ -21,7 +23,8 @@ namespace Business.Concrete
         {
             productDal = _productDal;
         }
-        [ValidationAspect(typeof(ProductValidator))]         
+        [ValidationAspect(typeof(ProductValidator),Priority=1)]
+        //[ValidationAspect(typeof(ProductValidator), Priority = 2)]
         public IResult Add(Product product)
         {
             //ValidationTool.Validate(new ProductValidator(),product);
@@ -46,15 +49,26 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Product>>(productDal.GetList());
         }
 
+        [CachAspect(duration:1)]
         public IDataResult<List<Product>> GetListByCategory(int categoryId)
         {
             return new SuccessDataResult<List<Product>>(productDal.GetList(p=>p.CategoryId==categoryId));
         }
 
+        [TransactionScopeAspect]
+        public IResult TransactionalOperation(Product product)
+        {
+            productDal.Update(product);
+           // productDal.Add(product);
+            return new SuccessResult(Messages.ProductUpdated);
+        }
+
+        
         public IResult Update(Product product)
         {
            productDal.Update(product);
            return new SuccessResult(Messages.ProductUpdated);
+
         }
 
         
