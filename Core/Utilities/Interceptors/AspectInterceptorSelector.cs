@@ -16,7 +16,7 @@ namespace Core.Utilities.Interceptors
 
             var metotAttributes = type.GetMethod(method.Name)
             .GetCustomAttribute<MethodInterceptionBaseAttribute>(true);
-
+            if(metotAttributes!=null )
             classAttributes.Add(metotAttributes);
 
             return classAttributes.OrderBy(x=>x.Priority).ToArray();

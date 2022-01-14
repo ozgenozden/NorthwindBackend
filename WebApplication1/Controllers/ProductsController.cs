@@ -1,9 +1,11 @@
 ﻿using Business.Abstract;
+using Core.Extensions;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Security.Claims;
 
 namespace WebAPI.Controllers
 {
@@ -18,9 +20,11 @@ namespace WebAPI.Controllers
         }
         
         [HttpGet("getall")]
-        [Authorize(Roles ="Product.List1")]
+        //[Authorize(Roles ="Product.List")]
         public IActionResult GetList()
         {
+
+            User.ClaimRoles();
             var result=productService.GetList();
             if (result.Success)
             {

@@ -1,7 +1,9 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspect.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performans;
 using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerts.Validation;
@@ -13,6 +15,7 @@ using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace Business.Concrete
 {
@@ -24,6 +27,7 @@ namespace Business.Concrete
             productDal = _productDal;
         }
         [ValidationAspect(typeof(ProductValidator),Priority=1)]
+        [CacheRemoveAspect("IProductService.Get")]
         //[ValidationAspect(typeof(ProductValidator), Priority = 2)]
         public IResult Add(Product product)
         {
@@ -43,13 +47,16 @@ namespace Business.Concrete
           
             return new SuccessDataResult<Product>(productDal.Get(p => p.ProductId==productId));
         }
-
+        //Bu operasyonun çalışması 5 sn den fazla olursa
+        [PerformansAspect(5)]
         public IDataResult<List<Product>> GetList()
         {
+            Thread.Sleep(5000);
             return new SuccessDataResult<List<Product>>(productDal.GetList());
         }
 
-        [CachAspect(duration:1)]
+        [SecuredOperation("Product.List,Admin")]
+        //[CachAspect(duration:1)]
         public IDataResult<List<Product>> GetListByCategory(int categoryId)
         {
             return new SuccessDataResult<List<Product>>(productDal.GetList(p=>p.CategoryId==categoryId));

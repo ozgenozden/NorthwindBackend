@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Core.Utilities.Messages
@@ -8,5 +9,7 @@ namespace Core.Utilities.Messages
     {
 
         public static string WrongValidationType = "Wrong Validation Typ";
+
+        public static string WrongLoggerType = "Wrong Logger Type";
     }
 }

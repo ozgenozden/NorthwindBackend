@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Business.Constants
@@ -18,5 +19,7 @@ namespace Business.Constants
         public static string UserRegistered = "Kullanıcı Başarıyla Kaydedildi.";
 
         public static string AccessTokenCreated = "Access token başarıyla oluşturuldu.";
+
+        public static string AuthorizationDenied = "Yetkiniz Yok";
     }
 }
